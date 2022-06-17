@@ -22,7 +22,7 @@ spring: #뷰리졸버
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create #none , 업데이트 등으로 설정 가능
+      ddl-auto: update #none , 업데이트 등으로 설정 가능
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
