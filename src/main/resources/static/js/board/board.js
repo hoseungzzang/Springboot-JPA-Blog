@@ -9,23 +9,21 @@ let index = {
 
 	save: function() {
 		let data = {
-			username: $("#username").val(),
-			password: $("#password").val(),
-			email: $("#email").val()
-	
+			title: $("#title").val(),
+			content: $("#content").val()
 	
 		};
 
 		//ajax호출 시 default가 비동기 호출이다.
 		$.ajax({
 			type:"POST",
-			url: "/auth/joinProc",
+			url: "/api/board",
 			data : JSON.stringify(data), //http body데이터
 			contentType:"application/json; charset=utf-8", //데이터 타입 명시
 			dataType : "json" // 응답이 왔을때의 데이터타입을 자바스크립트 오브젝트로 변환해준다.
 			
 		}).done(function(resp){
-			alert("회원가입 완료");
+			alert("글쓰기 완료");
 			location.href="/";
 		}).fail(function(error){
 				alert(JSON.stringify(error));

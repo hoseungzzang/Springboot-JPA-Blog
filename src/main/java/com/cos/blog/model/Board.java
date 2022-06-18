@@ -34,12 +34,11 @@ public class Board {
 	private int id;
 	
 	@Column(nullable = false, length=100)
-	private String tile;
+	private String title;
 	
 	@Lob//대용량데이터
 	private String content; //섬머노트 라이브러리 
 	
-	@ColumnDefault("0")
 	private int count;
 	
 	//단건이기 때문에 기본 페치는 데이터를 무조건 가져오는걸로 설정 (이걸전략)
