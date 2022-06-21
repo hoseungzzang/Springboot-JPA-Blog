@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.blog.config.auth.PrincipalDetail;
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.dto.ResponseDto;
 import com.cos.blog.model.Board;
-import com.cos.blog.model.RoleType;
+import com.cos.blog.model.Reply;
+import com.cos.blog.model.enumType.RoleType;
+import com.cos.blog.repository.ReplyRepository;
 import com.cos.blog.model.User;
 import com.cos.blog.service.BoardService;
 import com.cos.blog.service.UserService;
@@ -46,6 +49,15 @@ public class BoardApiController {
 	public ResponseDto<Integer> update(@PathVariable int id,@RequestBody Board board){
 		boardService.boardUpdate(id,board);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+	}
+	
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+
+		//
+		boardService.replySave(replySaveRequestDto);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+
 	}
 	/*
 	 * //정통적인 방식의 로그인

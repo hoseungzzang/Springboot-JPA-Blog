@@ -13,9 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,7 +53,9 @@ public class Board {
 	
 	//밑의 데이터는 수많은 데이터가 있을 수 있으므로 화면 표시 시 보이게할거면 이걸전략, 기본 전략(패치)가 레이지 전략임.
 	@OneToMany(mappedBy="board",fetch = FetchType.EAGER) //mappedBy가 붙어있으면 FK가 아니니 DB에 컬럼을 만들지 말라는 뜻임.
-	private List<Reply> reply;
+	@JsonIgnoreProperties({"board"})
+	@OrderBy("id desc")
+	private List<Reply> replys;
 	//조인컬럼을 사용하게 되면 DB상에 컬럼이추가되는데 리스트형식은 여러개를 가져오기 때문에 DB에 데이터를 넣게되면 원자성 어긋남
 	
 	@CreationTimestamp

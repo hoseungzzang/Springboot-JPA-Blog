@@ -3,15 +3,13 @@ package com.cos.blog.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.cos.blog.model.RoleType;
+import com.cos.blog.model.enumType.RoleType;
+import com.cos.blog.model.enumType.oAuthType;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.UserRepository;
 
@@ -30,6 +28,12 @@ public class UserService {
 		String encPassword = encoder.encode(rawPassword);
 		user.setPassword(encPassword);
 		user.setRole(RoleType.USER);
+
+		if(user.getOauth()==null) {
+			System.out.println("11111111111111111111111111111111111111");
+			user.setOauth(oAuthType.ORIGIN);
+		}
+		System.out.println("22222222222222222222222222222222222");
 	    userRepository.save(user);
 	}
 	
@@ -40,12 +44,27 @@ public class UserService {
 			return new IllegalArgumentException("회원수정 실패: 아이디를 찾을 수 없습니다.");
 		});
 		
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		persistance.setPassword(encPassword);
+		if(persistance.getOauth() ==null || persistance.getOauth().equals(oAuthType.ORIGIN)) {
+			System.out.println(user.getPassword().length());
+			if(user.getPassword().length()>0) {
+				System.out.println("앙디"+user.getPassword());
+				String rawPassword = user.getPassword();
+				String encPassword = encoder.encode(rawPassword);
+				persistance.setPassword(encPassword);		
+			}
+		}
 		persistance.setEmail(user.getEmail());
 		//서비스 종료 시 커밋 자동으로 됨.
 		//persistance란 이름으로 영속화된 USER오브젝트에 변화가 감지되면 더티체킹이 되어 update문 날림.
+	}
+	
+	@Transactional(readOnly=true)
+	public User  userSearch(String username) {
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+		return user;
+		
 	}
 	/*
 	@Transactional(readOnly=true) // select 시 트랜잭션 시작, 서비스 종료 시 트랜잭션 종료(정합성)
