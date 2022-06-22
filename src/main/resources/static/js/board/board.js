@@ -101,6 +101,20 @@ let index = {
 		}).fail(function(error) {
 			alert(JSON.stringify(error));
 		});
+	},
+	replyDelete: function(boardId, replyId) {
+		//ajax호출 시 default가 비동기 호출이다.
+		$.ajax({
+			type: "DELETE",
+			url: `/api/board/${boardId}/reply/${replyId}`,
+			dataType: "json" // 응답이 왔을때의 데이터타입을 자바스크립트 오브젝트로 변환해준다.
+
+		}).done(function(resp) {
+			alert("댓글 삭제 완료");
+			location.href = `/board/${boardId}`;
+		}).fail(function(error) {
+			alert(JSON.stringify(error));
+		});
 	}
 
 

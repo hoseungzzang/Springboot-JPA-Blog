@@ -3,6 +3,7 @@ package com.cos.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,7 +53,7 @@ public class Board {
 	//의 유저가 한개의 게시글만 쓸 수 있다.
 	
 	//밑의 데이터는 수많은 데이터가 있을 수 있으므로 화면 표시 시 보이게할거면 이걸전략, 기본 전략(패치)가 레이지 전략임.
-	@OneToMany(mappedBy="board",fetch = FetchType.EAGER) //mappedBy가 붙어있으면 FK가 아니니 DB에 컬럼을 만들지 말라는 뜻임.
+	@OneToMany(mappedBy="board",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) //mappedBy가 붙어있으면 FK가 아니니 DB에 컬럼을 만들지 말라는 뜻임.
 	@JsonIgnoreProperties({"board"})
 	@OrderBy("id desc")
 	private List<Reply> replys;

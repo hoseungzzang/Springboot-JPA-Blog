@@ -35,7 +35,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(nullable = false, length=100)
+	@Column(nullable = false, length=100, unique=true)
 	private String username;
 	
 	@Column(nullable = false, length=100)//해쉬를 통해 암호화할것임.
